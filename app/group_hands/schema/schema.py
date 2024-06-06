@@ -1,0 +1,40 @@
+from typing import Optional, List
+from sqlmodel import SQLModel
+
+
+class ScheduleUpdate(SQLModel):
+    name: Optional[str] = None
+    site_id: Optional[int] = None
+    status: Optional[int] = None
+    red_score: Optional[int] = None
+    red_foul: Optional[int] = None
+    cyan_score: Optional[int] = None
+    cyan_foul: Optional[int] = None
+    winner_id: Optional[int] = None
+    video_path: Optional[int] = None
+    red_athlete_id: Optional[int] = None
+    cyan_athlete_id: Optional[int] = None
+    red_name: Optional[str] = None  # 红方名称
+    cyan_name: Optional[str] = None  # 青方名称
+    red_unit: Optional[str] = None  # 红方单位
+    cyan_unit: Optional[str] = None  # 青方单位
+
+
+
+class ScheduleAthleteResponse(SQLModel):
+    id: int
+    name: str
+    site_id: int
+    status: int
+    red_id: int
+    red_score: int
+    red_foul: int
+    cyan_id: int
+    cyan_score: int
+    cyan_foul: int
+    video_path: str
+    winner_id: Optional[int]
+    red_athlete_name: Optional[str]
+    red_athlete_unit: Optional[str]
+    cyan_athlete_name: Optional[str]
+    cyan_athlete_unit: Optional[str]
