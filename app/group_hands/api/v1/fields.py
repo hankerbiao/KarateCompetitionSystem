@@ -1,6 +1,7 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from core.db import SessionDep
 from app.group_hands.model.models import Sites
+from sqlmodel import select
 
 router = APIRouter()
 

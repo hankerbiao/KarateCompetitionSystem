@@ -3,7 +3,7 @@ from fastapi import APIRouter, HTTPException
 
 from app.group_hands.schema.schema import ScheduleUpdate
 from core.db import SessionDep
-from app.group_hands.model.models import Schedule, Athlete
+from app.group_hands.model.models import Schedule
 
 router = APIRouter()
 

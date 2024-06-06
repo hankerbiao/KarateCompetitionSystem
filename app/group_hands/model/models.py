@@ -1,6 +1,7 @@
+# from sqlalchemy import JSON
 from sqlmodel import SQLModel, Field
-from typing import Optional
-
+from typing import Optional, List
+from sqlalchemy.dialects.sqlite import JSON
 from core.enum import ColorEnum
 
 
@@ -11,7 +12,7 @@ class Sites(SQLModel, table=True):
     id: int = Field(default=None, primary_key=True)
     name: str = None  # 场地名称
     location: str = None  # 地点
-    # todo 当前场地运行的比赛
+    is_match_schedule_id: int = Field(default=None)  # 正在运行中的比赛
 
 
 class Schedule(SQLModel, table=True):
