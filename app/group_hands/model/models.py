@@ -1,5 +1,5 @@
-from sqlmodel import SQLModel, Field, Relationship
-from typing import Optional, List
+from sqlmodel import SQLModel, Field
+from typing import Optional
 
 from core.enum import ColorEnum
 
@@ -9,8 +9,9 @@ class Sites(SQLModel, table=True):
     场地表
     """
     id: int = Field(default=None, primary_key=True)
-    name: str = None
-    location: str = None
+    name: str = None  # 场地名称
+    location: str = None  # 地点
+    # todo 当前场地运行的比赛
 
 
 class Schedule(SQLModel, table=True):
@@ -48,4 +49,4 @@ class Athlete(SQLModel, table=True):
 
 class MatchScore(SQLModel):
     schedule_id: int = Field(default=None)  # 赛程id
-    color: ColorEnum = Field(default=None)
+    color: ColorEnum = Field(default=None)  # 选手颜色
