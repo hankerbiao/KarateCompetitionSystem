@@ -2,18 +2,19 @@ from typing import List
 
 from fastapi import APIRouter, HTTPException
 from core.db import SessionDep
-from app.group_hands.model.models import Athlete
+from app.group_hands.model.models import Athlete, AthleteResponse, ResponseModel
 
 router = APIRouter()
 
 
-@router.get("/athlete/", response_model=List[Athlete])
-def read_schedules(db: SessionDep, skip: int = 0, limit: int = 10):
+@router.get("/athlete/", response_model=ResponseModel)
+def read_schedules(db: SessionDep, skip: int = 0, limit: int = 100):
     """
     查询所有运动员
     """
     athletes = db.query(Athlete).offset(skip).limit(limit).all()
-    return athletes
+    total = db.query(Athlete).count()
+    return ResponseModel(total=total, data=athletes)
 
 
 @router.get("/athletes/{athlete_id}", response_model=Athlete)

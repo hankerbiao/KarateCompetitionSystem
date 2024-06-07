@@ -32,8 +32,6 @@ static/
 .env
 .env.*
 secrets/
-#config.py
-#config.json
 
 # 忽略IDE和编辑器相关文件
 .idea/
