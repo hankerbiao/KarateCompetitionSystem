@@ -20,21 +20,9 @@ class ScheduleUpdate(SQLModel):
     cyan_unit: Optional[str] = None  # 青方单位
 
 
-
-class ScheduleAthleteResponse(SQLModel):
-    id: int
-    name: str
-    site_id: int
-    status: int
-    red_id: int
-    red_score: int
-    red_foul: int
-    cyan_id: int
-    cyan_score: int
-    cyan_foul: int
-    video_path: str
-    winner_id: Optional[int]
-    red_athlete_name: Optional[str]
-    red_athlete_unit: Optional[str]
-    cyan_athlete_name: Optional[str]
-    cyan_athlete_unit: Optional[str]
+class AthleteUpdate(SQLModel):
+    name: Optional[str] = None
+    unit: Optional[str] = None
+    group: Optional[int] = None
+    status: Optional[int] = None
+    place: Optional[int] = None

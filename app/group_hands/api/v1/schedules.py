@@ -24,16 +24,17 @@ def read_schedules(db: SessionDep, skip: int = 0, limit: int = 10, site_id: Opti
     return ResponseModel(data=schedules)
 
 
-# 通过 ID 查询赛程实例
 @router.get("/schedules/{schedule_id}", response_model=Schedule)
 def read_schedule(schedule_id: int, db: SessionDep):
+    """
+    通过 ID 查询赛程实例
+    """
     schedule = db.query(Schedule).filter(Schedule.id == schedule_id).first()
     if not schedule:
         raise HTTPException(status_code=404, detail="Schedule not found")
     return schedule
 
 
-# 创建新的 赛程 实例
 @router.post("/schedules/", response_model=Schedule)
 def create_schedule(schedule: Schedule, db: SessionDep):
     """
