@@ -36,6 +36,8 @@ class Schedule(SQLModel, table=True):
     red_unit: Optional[str] = Field(default=None)  # 红方单位
     cyan_unit: Optional[str] = Field(default=None)  # 青方单位
     winner_id: int = Field(default=None)  # 获胜方ID
+    preempt: int = Field(default=0)  # 先取ID
+
 
 
 class Athlete(SQLModel, table=True):

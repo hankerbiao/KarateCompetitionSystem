@@ -11,6 +11,7 @@ class ScheduleUpdate(SQLModel):
     cyan_score: Optional[int] = None
     cyan_foul: Optional[int] = None
     winner_id: Optional[int] = None
+    preempt: Optional[int] = None
     video_path: Optional[int] = None
     red_athlete_id: Optional[int] = None
     cyan_athlete_id: Optional[int] = None
