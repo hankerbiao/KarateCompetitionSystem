@@ -45,6 +45,7 @@ class Athlete(SQLModel, table=True):
     id: int = Field(default=None, primary_key=True)
     name: str = Field(default="")  # 赛程名称
     unit: str = Field(default="")  # 单位名称
+    group:int = Field(default=0)  # 组别
     status: int = Field(default=0)  # 状态： 0-未开始 1-比赛中 2-比赛完成
     place: int = Field(default=-1)  # 名次：-1 淘汰
 

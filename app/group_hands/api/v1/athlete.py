@@ -8,13 +8,13 @@ router = APIRouter()
 
 
 @router.get("/athlete/", response_model=ResponseModel)
-def read_schedules(db: SessionDep, skip: int = 0, limit: int = 100):
+def read_schedules(db: SessionDep):
     """
     查询所有运动员
     """
-    athletes = db.query(Athlete).offset(skip).limit(limit).all()
+    athletes = db.query(Athlete).all()
     total = db.query(Athlete).count()
-    return ResponseModel(total=total, data=athletes)
+    return ResponseModel(data_length=total, data=athletes)
 
 
 @router.get("/athletes/{athlete_id}", response_model=Athlete)
