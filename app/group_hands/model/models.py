@@ -64,5 +64,4 @@ class ResponseModel(Generic[T], SQLModel):
     status: bool = Field(default=True, description="请求是否成功")
     code: int = Field(default=200, description="状态码")
     data: Optional[T] = Field(default=None, description="响应数据")
-    data_length: Optional[int] = Field(default=None, description="数据长度，仅当数据是列表或可迭代对象时提供")
     message: str = Field(default="成功", description="描述信息")

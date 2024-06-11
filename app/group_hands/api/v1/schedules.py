@@ -3,13 +3,13 @@ from fastapi import APIRouter, HTTPException
 
 from app.group_hands.schema.schema import ScheduleUpdate
 from core.db import SessionDep
-from app.group_hands.model.models import Schedule
+from app.group_hands.model.models import Schedule, ResponseModel
 
 router = APIRouter()
 
 
 # 查询所有赛程实例
-@router.get("/schedules/", response_model=List[Schedule])
+@router.get("/schedules/", response_model=ResponseModel)
 def read_schedules(db: SessionDep, skip: int = 0, limit: int = 10, site_id: Optional[int] = None):
     """
     site_id = None，查询所有赛程
@@ -21,8 +21,7 @@ def read_schedules(db: SessionDep, skip: int = 0, limit: int = 10, site_id: Opti
         query = query.filter(Schedule.site_id == site_id)
 
     schedules: List[Schedule] = query.offset(skip).limit(limit).all()
-
-    return schedules
+    return ResponseModel(data=schedules)
 
 
 # 通过 ID 查询赛程实例

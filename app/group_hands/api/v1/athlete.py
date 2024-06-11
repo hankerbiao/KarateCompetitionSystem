@@ -2,7 +2,7 @@ from typing import List
 
 from fastapi import APIRouter, HTTPException
 from core.db import SessionDep
-from app.group_hands.model.models import Athlete, AthleteResponse, ResponseModel
+from app.group_hands.model.models import Athlete, ResponseModel
 
 router = APIRouter()
 
@@ -13,8 +13,7 @@ def read_schedules(db: SessionDep):
     查询所有运动员
     """
     athletes = db.query(Athlete).all()
-    total = db.query(Athlete).count()
-    return ResponseModel(data_length=total, data=athletes)
+    return ResponseModel(data=athletes)
 
 
 @router.get("/athletes/{athlete_id}", response_model=Athlete)
