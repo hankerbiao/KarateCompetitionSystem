@@ -1,6 +1,5 @@
 from sqlmodel import SQLModel, Field
 from typing import Optional, Generic, TypeVar
-from core.enum import MatchStatus, AthleteStatus
 
 T = TypeVar('T')
 
@@ -26,7 +25,7 @@ class Schedule(SQLModel, table=True):
     site_id: Optional[int] = Field(default=None, description="场地ID")
     red_id: Optional[int] = Field(default=None, description="红方选手ID")
     cyan_id: Optional[int] = Field(default=None, description="青方选手ID")
-    status: MatchStatus = Field(default=MatchStatus.NOT_STARTED, description="比赛状态")
+    status: int = Field(default=0, description="比赛状态")  # todo Enum
     red_score: Optional[int] = Field(default=0, description="红方得分")
     red_foul: Optional[int] = Field(default=0, description="红方犯规次数")
     cyan_score: Optional[int] = Field(default=0, description="青方得分")
@@ -52,8 +51,8 @@ class Athlete(SQLModel, table=True):
     name: str = Field(default="", description="运动员名称")
     unit: str = Field(default="", description="单位名称")
     group: int = Field(default=0, description="组别")
-    status: AthleteStatus = Field(default=AthleteStatus.NOT_STARTED, description="运动员状态")
-    place: int = Field(default=AthleteStatus.ELIMINATED, description="运动员名次，-1表示淘汰")
+    status: int = Field(default=0, description="运动员状态")  # todo enum
+    place: int = Field(default=0, description="运动员名次，-1表示淘汰")
 
     def __repr__(self):
         return (f"<Athlete(id={self.id}, name={self.name}, unit={self.unit}, "

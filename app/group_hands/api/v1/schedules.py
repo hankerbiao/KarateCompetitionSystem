@@ -2,10 +2,19 @@ from typing import List, Optional
 from fastapi import APIRouter, HTTPException
 
 from app.group_hands.schema.schema import ScheduleUpdate
+from core.constants import SCHEMA_NAME_LIST
 from core.db import SessionDep
 from app.group_hands.model.models import Schedule, ResponseModel
 
 router = APIRouter()
+
+
+@router.get('/schedules/schedules_name_list', response_model=ResponseModel)
+def get_schedules_name_list(db: SessionDep):
+    """
+    获取所有赛程名称
+    """
+    return ResponseModel(data=SCHEMA_NAME_LIST)
 
 
 # 查询所有赛程实例
