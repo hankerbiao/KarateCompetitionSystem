@@ -1,27 +1,27 @@
 from fastapi import APIRouter
 from core.db import SessionDep
-from app.group_hands.model.models import Sites
+from app.group_hands.model.models import Site
 
 router = APIRouter()
 
 
-@router.get("/fields/{field_id}", response_model=Sites)
+@router.get("/fields/{field_id}", response_model=Site)
 def read_field(field_id: int, db: SessionDep):
     """
     根据场地id查询场地信息
     """
-    sites = db.get(Sites, field_id)
+    sites = db.get(Site, field_id)
     if not sites:
-        return Sites()
+        return Site()
     return sites
 
 
-@router.post("/fields", response_model=Sites)
-def create_field(site: Sites, db: SessionDep):
+@router.post("/fields", response_model=Site)
+def create_field(site: Site, db: SessionDep):
     """
     创建场地
     """
-    db_site = Sites(name=site.name, location=site.location)
+    db_site = Site(name=site.name, location=site.location)
     db.add(db_site)
     db.commit()
     db.refresh(db_site)

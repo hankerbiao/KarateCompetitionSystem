@@ -1,4 +1,4 @@
-from enum import Enum
+from enum import Enum, IntEnum
 
 
 class SexEnum(str, Enum):
@@ -14,3 +14,16 @@ class ColorEnum(str, Enum):
 class MatchUpdateType(str, Enum):
     score = "score"
     foul = "foul"
+
+
+class MatchStatus(IntEnum):
+    NOT_STARTED = 0
+    IN_PROGRESS = 1
+    COMPLETED = 2
+
+
+class AthleteStatus(IntEnum):
+    NOT_STARTED = 0
+    IN_PROGRESS = 1
+    COMPLETED = 2
+    ELIMINATED = -1
