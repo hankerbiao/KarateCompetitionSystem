@@ -10,7 +10,7 @@ router = APIRouter()
 
 
 @router.get('/schedules/schedules_name_list', response_model=ResponseModel)
-def get_schedules_name_list(db: SessionDep):
+def get_schedules_name_list():
     """
     获取所有赛程名称
     """
@@ -19,7 +19,7 @@ def get_schedules_name_list(db: SessionDep):
 
 # 查询所有赛程实例
 @router.get("/schedules/", response_model=ResponseModel)
-def read_schedules(db: SessionDep, skip: int = 0, limit: int = 10, site_id: Optional[int] = None):
+def read_schedules(db: SessionDep, site_id: Optional[int] = None):
     """
     site_id = None，查询所有赛程
     根据site_id查询对应场地的所有赛程
@@ -29,7 +29,7 @@ def read_schedules(db: SessionDep, skip: int = 0, limit: int = 10, site_id: Opti
     if site_id is not None:
         query = query.filter(Schedule.site_id == site_id)
 
-    schedules: List[Schedule] = query.offset(skip).limit(limit).all()
+    schedules: List[Schedule] = query.all()
     return ResponseModel(data=schedules)
 
 
@@ -72,3 +72,17 @@ def update_schedule(schedule_id: int, schedule_update: ScheduleUpdate, db: Sessi
     db.commit()
     db.refresh(db_schedule)
     return db_schedule
+
+# 删除赛程接口
+@router.delete("/schedules/{schedule_id}", response_model=Schedule)
+def delete_schedule(schedule_id: int, db: SessionDep):
+    """
+    根据schedule_id删除对应赛程
+    """
+    schedule = db.query(Schedule).filter(Schedule.id == schedule_id).first()
+    if not schedule:
+        raise HTTPException(status_code=404, detail="Schedule not found")
+
+    db.delete(schedule)
+    db.commit()
+    return schedule

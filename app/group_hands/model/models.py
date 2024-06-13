@@ -25,7 +25,7 @@ class Schedule(SQLModel, table=True):
     site_id: Optional[int] = Field(default=None, description="场地ID")
     red_id: Optional[int] = Field(default=None, description="红方选手ID")
     cyan_id: Optional[int] = Field(default=None, description="青方选手ID")
-    status: int = Field(default=0, description="比赛状态")  # todo Enum
+    status: Optional[int] = Field(default=0, description="比赛状态")  # todo Enum
     red_score: Optional[int] = Field(default=0, description="红方得分")
     red_foul: Optional[int] = Field(default=0, description="红方犯规次数")
     cyan_score: Optional[int] = Field(default=0, description="青方得分")
