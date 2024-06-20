@@ -2,6 +2,7 @@ from typing import List, Optional
 from fastapi import APIRouter, HTTPException
 
 from app.group_hands.schema.schema import ScheduleUpdate
+from app.group_hands.utils.utils import get_athlete_name, get_site_name
 from core.constants import SCHEMA_NAME_LIST
 from core.db import SessionDep
 from app.group_hands.model.models import Schedule, ResponseModel
@@ -28,9 +29,19 @@ def read_schedules(db: SessionDep, site_id: Optional[int] = None):
 
     if site_id is not None:
         query = query.filter(Schedule.site_id == site_id)
-
-    schedules: List[Schedule] = query.all()
-    return ResponseModel(data=schedules)
+    response_schedules = []
+    schedules = query.all()
+    for schedule in schedules:
+        response_schedule = ScheduleUpdate(
+            **schedule.__dict__,
+            red_name=get_athlete_name(schedule.red_id, db)[0],
+            red_unit=get_athlete_name(schedule.red_id, db)[1],
+            cyan_name=get_athlete_name(schedule.cyan_id, db)[0],
+            cyan_unit=get_athlete_name(schedule.cyan_id, db)[1],
+            site_name=get_site_name(schedule.site_id, db)
+        )
+        response_schedules.append(response_schedule)
+    return ResponseModel(data=response_schedules)
 
 
 @router.get("/schedules/{schedule_id}", response_model=Schedule)
@@ -72,6 +83,7 @@ def update_schedule(schedule_id: int, schedule_update: ScheduleUpdate, db: Sessi
     db.commit()
     db.refresh(db_schedule)
     return db_schedule
+
 
 # 删除赛程接口
 @router.delete("/schedules/{schedule_id}", response_model=Schedule)

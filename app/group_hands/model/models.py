@@ -4,6 +4,15 @@ from typing import Optional, Generic, TypeVar
 T = TypeVar('T')
 
 
+class ScheduleResponseModel(SQLModel):
+    id: int
+    cyan_id: int
+    red_id: int
+    cyan_name: Optional[str]
+    red_name: Optional[str]
+    site_name: str
+
+
 class Site(SQLModel, table=True):
     """
     场地表
