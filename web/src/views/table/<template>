@@ -1,0 +1,109 @@
+<template>
+  <el-form :model="form" label-width="auto" style="max-width: 600px">
+    <el-form-item label="赛程名称：">
+      <el-input v-model="form.name"/>
+    </el-form-item>
+    <el-form-item label="选择场地：">
+      <el-select v-model="form.field" placeholder="please select your zone">
+        <el-option
+          v-for="option in options"
+          :key="option.location"
+          :label="option.name"
+          :value="option.location"
+        />
+      </el-select>
+    </el-form-item>
+    <el-form-item label="红方运动员：">
+      <el-autocomplete
+        v-model="state_red"
+        :fetch-suggestions="querySearch"
+        clearable
+        class="inline-input w-50"
+        placeholder="Please Input"
+        @select="handleSelectRed"
+      />
+      <el-text ref="redLabel" class="red-label" type="danger" style="margin-left: 20px">i am red</el-text>
+    </el-form-item>
+    <el-form-item label="青方运动员：">
+      <el-autocomplete
+        v-model="state_cyan"
+        :fetch-suggestions="querySearch"
+        clearable
+        class="inline-input w-50"
+        placeholder="Please Input"
+        @select="handleSelectCyan"
+      />
+      <el-text ref="cyanLabel" class="cyan-label" type="primary" style="margin-left: 20px">i am cyan</el-text>
+    </el-form-item>
+    <el-form-item>
+      <el-button type="primary" @click="onSubmit">Create</el-button>
+      <el-button>Cancel</el-button>
+    </el-form-item>
+  </el-form>
+</template>
+
+<script lang="ts" setup>
+import { onMounted, reactive, ref } from 'vue';
+import { fetchAthleteData, fetchDatas } from "@/api";
+
+const options = ref([]);
+const state_red = ref('');
+const state_cyan = ref('');
+const restaurants = ref<RestaurantItem[]>([]);
+
+interface RestaurantItem {
+  value: string;
+  unit: string;
+  id: number;
+}
+
+const form = reactive({
+  name: '',
+  field: ''
+});
+
+const fetchOptions = async () => {
+  try {
+    const res = await fetchDatas("/api/v1/fields/");
+    options.value = res.data.data;
+  } catch (error) {
+    console.error('Error fetching options:', error);
+  }
+};
+
+const fetchRestaurants = async () => {
+  try {
+    restaurants.value = await fetchAthleteData();
+  } catch (error) {
+    console.error('Error fetching restaurants:', error);
+  }
+};
+
+const querySearch = (queryString: string, cb: any) => {
+  const results = queryString
+    ? restaurants.value.filter(restaurant => restaurant.value.toLowerCase().startsWith(queryString.toLowerCase()))
+    : restaurants.value;
+  cb(results);
+};
+
+const handleSelectRed = (item: RestaurantItem) => {
+  if (redLabel.value) {
+    redLabel.value.$el.innerText = item.unit;
+  }
+};
+
+const handleSelectCyan = (item: RestaurantItem) => {
+  if (cyanLabel.value) {
+    cyanLabel.value.$el.innerText = item.unit;
+  }
+};
+
+const onSubmit = () => {
+  update(); // 更新页面信息
+};
+
+onMounted(() => {
+  fetchOptions();
+  fetchRestaurants();
+});
+</script>
